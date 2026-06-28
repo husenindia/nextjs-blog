@@ -1,4 +1,5 @@
 import BlogList from "@/components/blog-list";
+import { BLOG } from "@/data/blog-data";
 
 export default async function BlogPage() {
     
@@ -28,7 +29,7 @@ export default async function BlogPage() {
                 </p>
             </section>
            
-            <BlogList blogList={data}></BlogList>;
+            <BlogList blogList={BLOG}></BlogList>;
             
         </>
     );
