@@ -6,7 +6,7 @@ import NavLinks from "./nav-links";
   const navItems = [
       { label: "HOME", href: "/" },
       { label: "BLOG", href: "/blog" },
-      { label: "ARCHIVE", href: "/archive/2027" },
+      { label: "ARCHIVE", href: "/archive" },
   ];
 
 
