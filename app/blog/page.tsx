@@ -1,7 +1,38 @@
-import { BLOG } from "@/data/blog-data";
+"use client";
+
 import BlogList from "@/components/blog-list";
+import { useEffect, useState } from "react";
 
 export default function BlogPage() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        async function fetchNews() {
+            setIsLoading(true);
+            const response = await fetch("http://localhost:8080/news");
+            if(!response.ok) {
+                setError("Failed to load");
+                setIsLoading(false);
+            }
+            const blogData = await response.json();
+            setData(blogData);
+            setIsLoading(false);
+        }
+        fetchNews();
+    }, []);
+
+    if(isLoading) {
+        return <p>Loading</p>;
+    }
+    if(error) {
+        return <p>{error}</p>
+    }
+    let blogContent;
+    if(data) {
+        blogContent = <BlogList blogList={data}></BlogList>;
+    }
     return (
         <>
             <h1> </h1>
@@ -23,7 +54,7 @@ export default function BlogPage() {
                 </p>
             </section>
            
-            <BlogList blogList={BLOG}></BlogList>
+            {blogContent}
             
         </>
     );
