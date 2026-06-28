@@ -12,27 +12,29 @@ type YearPageProps = {
 export default async function YearPage({ params }: YearPageProps) {
     const { filter } = await params;
 
-    const selectedYear = filter?.[0];
-    const selectedMonth = filter?.[1];
-    let timeDurationLinks = getAvailableNewsYears();
+    const selectedYear = filter?.[0] as string | number;
+    const selectedMonth = filter?.[1] as string | number;
+    let timeDurationLinks = await getAvailableNewsYears();
     let selectedBlog;
     let blogContent;
     if (selectedYear && !selectedMonth) {
-        selectedBlog = getNewsForYear(selectedYear);
-        timeDurationLinks = getAvailableNewsMonths(selectedYear)
+        selectedBlog = await getNewsForYear(selectedYear);
+        timeDurationLinks = await getAvailableNewsMonths(selectedYear)
     }
     if (selectedYear && selectedMonth) {
-        selectedBlog = getNewsForYearAndMonth(selectedYear, selectedMonth);
+        selectedBlog = await getNewsForYearAndMonth(selectedYear, selectedMonth);
         timeDurationLinks = [];
     }
 
     if (selectedBlog && selectedBlog?.length > 0) {
-        blogContent = <BlogList blogList={selectedBlog} />;
+        blogContent = <BlogList blogList={selectedBlog} />
     } else {
-        blogContent = <NoBlogsFound />;
+        blogContent = <NoBlogsFound />
     }
-   
-    if(selectedYear && !getAvailableNewsYears().includes(Number(selectedYear)) || selectedMonth && !getAvailableNewsMonths(Number(selectedYear)).includes(Number(selectedMonth))) {
+    const availableNewsYears = await getAvailableNewsYears();
+    
+    if(selectedYear && !availableNewsYears.includes(selectedYear) || selectedMonth && !getAvailableNewsMonths(selectedYear).includes(selectedMonth)) {
+        console.log(selectedMonth);
         throw new Error("Invalid Year or Month");
     }
     return (

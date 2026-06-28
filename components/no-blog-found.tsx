@@ -7,7 +7,7 @@ export default function NoBlogsFound() {
                 </h3>
 
                 
-            </div>;
+            </div>
         </>
     )
 }
