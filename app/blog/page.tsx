@@ -1,7 +1,8 @@
 import BlogList from "@/components/blog-list";
-import { BLOG } from "@/data/blog-data";
+import { getAllNews } from "@/lib/blog-helper";
 
 export default async function BlogPage() {
+    const blog = await getAllNews();
     return (
         <>
             <h1> </h1>
@@ -23,7 +24,7 @@ export default async function BlogPage() {
                 </p>
             </section>
            
-            <BlogList blogList={BLOG}></BlogList>;
+            <BlogList blogList={blog}></BlogList>
             
         </>
     );

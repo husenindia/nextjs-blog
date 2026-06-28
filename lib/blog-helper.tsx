@@ -1,10 +1,13 @@
+import sql from 'better-sqlite3';
 import { BLOG } from "@/data/blog-data";
 import { Blog } from "@/type/type";
 
+const db = sql("data.db");
 
-
-export function getAllNews(): Blog[] {
-  return BLOG;
+export async function getAllNews(): Promise<Blog[]> {
+  const blog = db.prepare("SELECT * FROM news").all();
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  return blog as Blog[];
 }
 
 export function getLatestNews(): Blog[] {
