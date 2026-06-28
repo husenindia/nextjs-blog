@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getLatestNews } from "@/lib/blog-helper"
 
-export default function HomePage() {
-  const latestBlog = getLatestNews();
+export default async function HomePage() {
+  const latestBlog = await getLatestNews();
   return (
     <main className="py-10">
 

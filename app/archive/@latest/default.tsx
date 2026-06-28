@@ -1,8 +1,8 @@
 import BlogList from "@/components/blog-list";
 import { getLatestNews } from "@/lib/blog-helper"
 
-export default function LatestBlogPage() {
-    const latestBlog = getLatestNews();
+export default async function LatestBlogPage() {
+    const latestBlog = await getLatestNews();
     return (
         <>
             <section>

@@ -6,12 +6,22 @@ const db = sql("data.db");
 
 export async function getAllNews(): Promise<Blog[]> {
   const blog = db.prepare("SELECT * FROM news").all();
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  await new Promise(resolve => setTimeout(resolve, 2500));
   return blog as Blog[];
 }
 
-export function getLatestNews(): Blog[] {
-  return BLOG.slice(0, 3);
+export async function getNewsItem(slug: string): Promise<Blog> {
+  const newsItem = db.prepare('SELECT * FROM news WHERE slug = ?').get(slug);
+  await new Promise((resolve) => setTimeout(resolve, 2500));
+  return newsItem as Blog;
+}
+
+export async function getLatestNews(): Promise<Blog[]>  {
+  const latestNews = db
+    .prepare('SELECT * FROM news ORDER BY date DESC LIMIT 3')
+    .all();
+  await new Promise((resolve) => setTimeout(resolve, 2500));
+  return latestNews as Blog[];
 }
 
 export function getAvailableNewsYears(): number[] {
@@ -64,3 +74,52 @@ export function getNewsForYearAndMonth(
     );
   });
 }
+
+
+
+
+
+
+// export async function getAvailableNewsYears() {
+//   const years = db
+//     .prepare("SELECT DISTINCT strftime('%Y', date) as year FROM news")
+//     .all()
+//     .map((year) => year.year);
+
+//   await new Promise((resolve) => setTimeout(resolve, 2000));
+
+//   return years;
+// }
+
+// export function getAvailableNewsMonths(year) {
+//   return db
+//     .prepare(
+//       "SELECT DISTINCT strftime('%m', date) as month FROM news WHERE strftime('%Y', date) = ?"
+//     )
+//     .all(year)
+//     .map((month) => month.month);
+// }
+
+// export async function getNewsForYear(year) {
+//   const news = db
+//     .prepare(
+//       "SELECT * FROM news WHERE strftime('%Y', date) = ? ORDER BY date DESC"
+//     )
+//     .all(year);
+
+//   await new Promise((resolve) => setTimeout(resolve, 2000));
+
+//   return news;
+// }
+
+// export async function getNewsForYearAndMonth(year, month) {
+//   const news = db
+//     .prepare(
+//       "SELECT * FROM news WHERE strftime('%Y', date) = ? AND strftime('%m', date) = ? ORDER BY date DESC"
+//     )
+//     .all(year, month);
+
+//   await new Promise((resolve) => setTimeout(resolve, 2000));
+
+//   return news;
+// }
