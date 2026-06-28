@@ -2,12 +2,6 @@ import BlogList from "@/components/blog-list";
 import { BLOG } from "@/data/blog-data";
 
 export default async function BlogPage() {
-    
-    const response = await fetch("http://localhost:8080/news");
-    if(!response.ok) {
-        throw new Error("Failed to load");
-    }
-    const data = await response.json();
     return (
         <>
             <h1> </h1>
